@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: predictapi-deployment
+  namespace: mlpredict
+  labels:
+    app: predictapi
+spec:
+  replicas: 3
+  strategy: 
+    type: Recreate
+  selector:
+    matchLabels:
+      app: predictapi
+  template:
+    metadata:
+      labels:
+        app: predictapi
+    spec:
+      containers:
+        - name: lab3
+          image: lab3:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /health
+              scheme: HTTP
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 60
+          livenessProbe:
+            httpGet:
+              path: /health
+              scheme: HTTP
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 60
+      initContainers:
+        - name: init-redis-dns
+          image: busybox
+          command: ['sh', '-c', "until nslookup redis-service.$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace).svc.cluster.local; do echo waiting for redis-service; sleep 2; done"]
+        - name: init-redis-ready
+          image: busybox
+          command: ["curl", "-w", "redis://redis-service/6379"]
+          command: ['sh', '-c', "while $(curl -w '%{http_code}' --silent --output /dev/null redis://redis-service/6379) -neq '200'; do echo waiting for redis-service response; sleep 2; done"]
+

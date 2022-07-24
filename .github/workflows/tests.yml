@@ -1,0 +1,38 @@
+name: GitHub action tests for lab
+
+# Controls when the workflow will run
+on: [push,pull_request]
+  
+jobs:
+  test:
+    name: Running unit tests
+    # The type of runners that the job will run on
+    runs-on: ubuntu-latest
+           
+    # Tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE for the job
+      - uses: actions/checkout@v3
+      # Setup Python 3.10
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+      # Setup Poetry
+      - uses: snok/install-poetry@v1
+        with:
+          version: 1.1.13
+      
+      - name: Upgrade pip
+        run: python -m pip install --upgrade pip          
+      
+      - name: Poetry install      
+        working-directory: ./ml_model_on_fastapi/mlapi
+        run: poetry install
+      
+      - name: Install all environment
+        working-directory: ./ml_model_on_fastapi/mlapi
+        run: pip install -e .
+      
+      - name: Run Pytest
+        working-directory: ./ml_model_on_fastapi/mlapi
+        run: poetry run pytest -vv

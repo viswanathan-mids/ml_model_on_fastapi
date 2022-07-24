@@ -1,6 +1,6 @@
 This repo contains a sklearn model that is trained on house prices in California and server the prediction on a fastapi application.
 The fastapi application is deployed on a local kubernetes cluster managed by minikube to serve predictions on POST request.
-The application uses a redis cache to protect from repeated dulicate requests. The unit tests are using pytest and github actions on pusing to the repo.
+The application uses a redis cache to protect from repeated duplicate requests. The unit tests are using pytest and run in github actions on pusing to the repo.
 
 If you would like to install and use poetry, please add dependancies 
 using poetry and initiate application using uvicorn and test with pytest 

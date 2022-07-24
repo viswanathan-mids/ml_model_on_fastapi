@@ -26,13 +26,13 @@ jobs:
         run: python -m pip install --upgrade pip          
       
       - name: Poetry install      
-        working-directory: ./ml_model_on_fastapi/mlapi
+        working-directory: ./mlapi
         run: poetry install
       
       - name: Install all environment
-        working-directory: ./ml_model_on_fastapi/mlapi
+        working-directory: ./mlapi
         run: pip install -e .
       
       - name: Run Pytest
-        working-directory: ./ml_model_on_fastapi/mlapi
+        working-directory: ./mlapi
         run: poetry run pytest -vv

@@ -1,8 +1,7 @@
 [tool.poetry]
 name = "src"
 version = "0.1.0"
-description = "Lab1 basic API implementation"
-authors = ["viswanathan <viswanathan@berkeley.edu>"]
+description = "ML API implementation"
 
 [tool.poetry.dependencies]
 python = ">=3.10.0,<3.11"

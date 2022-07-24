@@ -34,5 +34,5 @@ jobs:
         run: pip install -e .
       
       - name: Run Pytest
-        working-directory: .mlapi
+        working-directory: ./mlapi
         run: poetry run pytest -vv
